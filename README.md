@@ -1,5 +1,5 @@
 # CatCareGame
 *Here you can download my cat game.*
-*Click "Download" next to the setup.exe file*
+*Just [follow the link](https://artem254351.github.io/CatCareCame) and click the "Download" button.*
 *I hope you enjoy it.*
 *Have fun playing!*
