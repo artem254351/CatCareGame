@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Download Setup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            color: white;
+            max-width: 500px;
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 1.2em;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .download-icon {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+            display: none;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: white;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .alternative-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 0.9em;
+            display: block;
+            margin-top: 15px;
+        }
+
+        .alternative-link:hover {
+            color: white;
+        }
+
+        .success-message {
+            display: none;
+            color: #4CAF50;
+            font-size: 1.1em;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Download Setup</h1>
+        <p>Click the button below to start downloading the setup file</p>
+
+        <a href="https://github.com/artem254351/CatCareGame/releases/download/setup/setup.exe" download id="downloadLink" class="download-btn">
+            <span class="download-icon">⇩</span>
+            Download Setup Now
+        </a>
+
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <span class="alternative-link" id="alternativeLink">
+            If download doesn't start, click here
+        </span>
+
+        <div class="success-message" id="successMessage">
+            Download started successfully!
+        </div>
+    </div>
+
+    <script>
+        const downloadLink = document.getElementById('downloadLink');
+        const alternativeLink = document.getElementById('alternativeLink');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressBar = document.getElementById('progressBar');
+        const successMessage = document.getElementById('successMessage');
+
+        // Функция для имитации прогресса загрузки
+        function startDownloadProgress() {
+            progressContainer.style.display = 'block';
+            let width = 0;
+
+            const interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    progressBar.style.width = '100%';
+
+                    setTimeout(() => {
+                        successMessage.style.display = 'block';
+                        downloadLink.style.display = 'none';
+                        alternativeLink.style.display = 'none';
+                    }, 500);
+                } else {
+                    width += Math.random() * 10;
+                    if (width > 100) width = 100;
+                    progressBar.style.width = width + '%';
+                }
+            }, 200);
+        }
+
+        // Обработчик основного клика
+        downloadLink.addEventListener('click', function(e) {
+            startDownloadProgress();
+        });
+
+        // Обработчик альтернативной ссылки
+        alternativeLink.addEventListener('click', function() {
+            // Создаём временный элемент для принудительного запуска скачивания
+            const tempLink = document.createElement('a');
+            tempLink.href = downloadLink.getAttribute('href');
+            tempLink.download = downloadLink.getAttribute('download') || 'setup-file.exe';
+            document.body.appendChild(tempLink);
+            tempLink.click();
+            document.body.removeChild(tempLink);
+
+            startDownloadProgress();
+        });
+    </script>
+</body>
+</html>
